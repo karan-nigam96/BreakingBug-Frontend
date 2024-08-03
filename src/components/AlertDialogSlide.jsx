@@ -6,6 +6,14 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
     const handleClose = () => {
         setShowDialog(false);
     };
+   
+    
+    const taskHandler = () => {
+       
+        console.log("Task handled.");
+       
+    };
+
     return (
         <Dialog
             open={showDialog}
@@ -27,14 +35,14 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
                 </div>
                 <div>
                     <RedButton onClick={() => {
-                        handleClose()
-                        taskHandler()
+                        handleClose();
+                        taskHandler();
                     }}>Yes</RedButton>
                 </div>
             </DialogActions>
         </Dialog>
     );
-}
+};
 
 export default AlertDialogSlide;
 

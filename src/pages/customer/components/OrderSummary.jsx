@@ -10,12 +10,12 @@ import { useParams } from 'react-router-dom';
 import { fetchProductDetailsFromCart } from '../../../redux/userSlice';
 
 const OrderSummary = ({ handleNext, handleBack }) => {
-
+    
     const dispatch = useDispatch();
 
     const params = useParams();
     const productID = params.id;
-
+    
     const { currentUser, productDetailsCart } = useSelector((state) => state.user);
 
     React.useEffect(() => {
@@ -31,7 +31,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
     const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
-
+    const totalamount= totalQuantity*totalNewPrice;     
     return (
         <React.Fragment>
             <Typography variant="h6" sx={{ fontWeight: 700 }} gutterBottom>

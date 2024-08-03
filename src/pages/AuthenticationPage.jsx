@@ -10,16 +10,14 @@ import styled from 'styled-components';
 import Popup from '../components/Popup';
 
 const AuthenticationPage = ({ mode, role }) => {
+    const bgpic = "https://images.pexels.com/photos/1121097/pexels-photo-1121097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
-    const bgpic = "https://images.pexels.com/photos/1121097/pexels-photo-1121097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);;
-
-    const [toggle, setToggle] = useState(false)
-    const [loader, setLoader] = useState(false)
+    const [toggle, setToggle] = useState(false);
+    const [loader, setLoader] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -28,71 +26,90 @@ const AuthenticationPage = ({ mode, role }) => {
     const [userNameError, setUserNameError] = useState(false);
     const [shopNameError, setShopNameError] = useState(false);
 
-    const handleSubmit = (event) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-        let email, password;
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!email) {
+            setEmailError(true);
+        } else {
+            setEmailError(false);
+        }
 
         if (!password) {
-            if (!email) setEmailError(true);
-            if (!password) setPasswordError(true);
+            setPasswordError(true);
+        } else {
+            setPasswordError(false);
+        }
+
+        if (!email || !password) {
             return;
         }
 
-         if (mode === "Register") {
+        if (mode === "Register") {
             const name = event.target.userName.value;
 
             if (!name) {
-                if (!name) setUserNameError(true);
+                setUserNameError(true);
                 return;
+            } else {
+                setUserNameError(false);
             }
 
             if (role === "Seller") {
                 const shopName = event.target.shopName.value;
 
                 if (!shopName) {
-                    if (!shopName) setShopNameError(true);
+                    setShopNameError(true);
                     return;
+                } else {
+                    setShopNameError(false);
                 }
 
-                const sellerFields = { name, email, password, role, shopName }
-                dispatch(authUser(sellerFields, role, mode))
+                const sellerFields = { name, email, password, role, shopName };
+                dispatch(authUser(sellerFields, role, mode));
+            } else {
+                const customerFields = { name, email, password, role };
+                dispatch(authUser(customerFields, role, mode));
             }
-            else {
-                const customerFields = { name, email, password, role }
-
-                dispatch(authUser(customerFields, role, mode))
-            }
+        } else if (mode === "Login") {
+            const fields = { email, password };
+            dispatch(authUser(fields, role, mode));
         }
-        else if (mode === "Login") {
-            const fields = { email, password }
-            dispatch(authUser(fields, role, mode))
-        }
-        setLoader(true)
+        setLoader(true);
     };
 
     const handleInputChange = (event) => {
-        const { name } = event.target;
-        if (name === 'email') setEmailError(false);
-        if (name === 'password') setPasswordError(false);
-        if (name === 'userName') setUserNameError(false);
-        if (name === 'shopName') setShopNameError(false);
+        const { name, value } = event.target;
+
+        if (name === 'email') {
+            setEmail(value);
+            setEmailError(false);
+        } else if (name === 'password') {
+            setPassword(value);
+            setPasswordError(false);
+        } else if (name === 'userName') {
+            setUserNameError(false);
+        } else if (name === 'shopName') {
+            setShopNameError(false);
+        }
     };
 
     useEffect(() => {
         if (status === 'success' && currentRole !== null) {
             navigate('/');
+        } else if (status === 'failed') {
+            setMessage(response);
+            setShowPopup(true);
+            setLoader(false);
+        } else if (status === 'error') {
+            setLoader(false);
+            setMessage("Network Error");
+            setShowPopup(true);
         }
-        else if (status === 'failed') {
-            setMessage(response)
-            setShowPopup(true)
-            setLoader(false)
-        }
-        else if (status === 'error') {
-            setLoader(false)
-            setMessage("Network Error")
-            setShowPopup(true)
-        }
-    }, [status, currentUser, currentRole, navigate, error, response]);
+    }, [status, currentRole, navigate, response]);
 
     return (
         <>
@@ -114,7 +131,7 @@ const AuthenticationPage = ({ mode, role }) => {
 
                         {role === "Seller" && mode === "Register" &&
                             <Typography variant="h7">
-                                Create your own shop by registering as an seller.
+                                Create your own shop by registering as a seller.
                                 <br />
                                 You will be able to add products and sell them.
                             </Typography>
@@ -128,7 +145,7 @@ const AuthenticationPage = ({ mode, role }) => {
 
                         {mode === "Login" &&
                             <Typography variant="h7">
-                                Welcome back! Please enter your details
+                                Welcome back! Please enter your details.
                             </Typography>
                         }
 
@@ -261,7 +278,7 @@ const AuthenticationPage = ({ mode, role }) => {
     );
 }
 
-export default AuthenticationPage
+export default AuthenticationPage;
 
 const StyledLink = styled(Link)`
   margin-top: 9px;

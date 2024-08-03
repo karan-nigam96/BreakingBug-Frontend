@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Grid, Pagination } from '@mui/material';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,12 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
-const Products = ({}) => {
+const Products = ({productData}) => {
+  const navigate=useNavigate();
   const dispatch = useDispatch();
 
   const itemsPerPage = 9;
-
-  const { currentRole, responseSearch } = useSelector();
+  const [productdata,setproductdata]=useState([]);
+  const { currentRole, responseSearch } = useSelector((state)=>state.user);
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,7 +22,7 @@ const Products = ({}) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem + itemsPerPage;
   const currentItems = (indexOfFirstItem, indexOfLastItem);
-
+ 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
     dispatch(addToCart(product));
@@ -38,15 +39,19 @@ const Products = ({}) => {
     setMessage("You have to login or register first")
     setShowPopup(true)
   };
+  useEffect(()=>{
+     setproductdata(productData);
+     console.log(productdata[0])
+  },[productData])
 
-  if (!responseSearch) {
-    return <div>Product not found</div>;
-  }
-
+  // if (!responseSearch) {
+  //   return <div>Product not found</div>;
+  // }
+ 
   return (
     <>
       <ProductGrid container spacing={3}>
-        {currentItems.map((data, index) => (
+        {productdata.map((data, index) => (
           <Grid item xs={12} sm={6} md={4}
             key={index}
             onClick={() => navigate("/product/view/" + data._id)}
@@ -86,7 +91,7 @@ const Products = ({}) => {
 
       <Container sx={{ mt: 10, mb: 10, display: "flex", justifyContent: 'center', alignItems: "center" }}>
         <Pagination
-          count={Math.ceil(productData.length / itemsPerPage)}
+          count={Math.ceil()}
           page={currentPage}
           color="secondary"
 

@@ -38,7 +38,7 @@ const Navbar = () => {
             console.log(currentUser);
             dispatch(updateCustomer(currentUser, currentUser._id));
         }
-    }, [currentRole, currentUser, dispatch, ancorElNav])
+    }, [currentRole, currentUser, dispatch])   //anchorElnav
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -50,13 +50,13 @@ const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = React.useState(false);
 
     // Cart
-    const handleOpen Cart = () => {
+    const handleOpenCart = () => {
         setIsCartOpen(true);
     };
 
-    const handleOpenCart = () => {
-        setIsCartOpen(false);
-    };
+    // const handleOpenCart = () => {
+    //     setIsCartOpen(false);
+    // };
 
     // Navigation Menu
     const handleOpenNavMenu = (event) => {
@@ -84,7 +84,9 @@ const Navbar = () => {
     const handleCloseSigninMenu = () => {
         setAnchorElSign(null);
     };
-
+    const handleCloseCart=()=>{
+        setIsCartOpen(false);
+    }       
     const homeHandler = () => {
         navigate("/")
     };

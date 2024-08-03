@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import {
     authRequest,
     authSuccess,
@@ -25,7 +26,9 @@ import {
     specificProductSuccess,
     updateCurrentUser,
 } from './userSlice';
+import { createAction } from '@reduxjs/toolkit';
 
+export const underControl = createAction('user/underControl');
 export const authUser = (fields, role, mode) => async (dispatch) => {
     dispatch(authRequest());
 
@@ -49,7 +52,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (result.data.message) {
@@ -98,17 +101,18 @@ export const deleteStuff = (id, address) => async (dispatch) => {
 export const updateCustomer = (fields, id) => async (dispatch) => {
     dispatch(updateCurrentUser(fields));
     await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
-};
+try{
+    dispatch(stuffUpdated());
+} 
+ catch (error) {
 
-        dispatch(stuffUpdated());
+  dispatch(getError(error));
 
-      } catch (error) {
+}
+}
+;
 
-        dispatch(getError(error));
-
-    }
-
-    }
+    
 
 export const getProductsbySeller = (id) => async (dispatch) => {
     dispatch(getRequest());
@@ -163,7 +167,7 @@ export const getCustomers = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/order/view/${id}`);
         if (result.data.message) {
             dispatch(getCustomersListFailed(result.data.message));
         }

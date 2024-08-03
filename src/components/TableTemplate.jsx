@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import {Table, TableBody, TableCell, TableContainer, TableRow, styled} from '@mui/material';
-
+import {Table, TableBody, TableCell, TableContainer, TableRow, styled,tableCellClasses} from '@mui/material';
+import ButtonHaver from './buttonhaver';
 const TableTemplate = ({columns, rows}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -33,7 +33,7 @@ const TableTemplate = ({columns, rows}) => {
                         <StyledTableCell key={column.Id} align={column.align}>
                           {
                             column.format && typeof value === 'number'
-                              ? column.format(id)
+                              ? column.format(column.id)
                               : value
                           }
                         </StyledTableCell>

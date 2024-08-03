@@ -5,6 +5,7 @@ import {
     tableCellClasses,
     Drawer as MuiDrawer,
     AppBar as MuiAppBar,
+    Button
 } from "@mui/material";
 import { Link } from "react-scroll";
 
@@ -19,6 +20,22 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontSize: 14,
     },
 }));
+export const BasicButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  }));
+  
+  // Define the LightPurpleButton styled component
+  export const LightPurpleButton = styled(Button)(({ theme }) => ({
+    backgroundColor: '#D8BFD8',
+    color: theme.palette.common.black,
+    '&:hover': {
+      backgroundColor: '#DDA0DD',
+    },
+  }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
