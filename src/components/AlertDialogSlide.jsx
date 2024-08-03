@@ -7,11 +7,9 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
         setShowDialog(false);
     };
    
-    
-    const taskHandler = () => {
-       
-        console.log("Task handled.");
-       
+    //* defined task handler function
+    const taskHandler = () => {     
+        console.log("Task handled.");      
     };
 
     return (
