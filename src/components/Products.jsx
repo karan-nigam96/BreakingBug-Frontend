@@ -14,6 +14,7 @@ const Products = ({productData}) => {
 
   const itemsPerPage = 9;
   const [productdata,setproductdata]=useState([]);
+  //* gave parameter to parenthesis inside useSelector below
   const { currentRole, responseSearch } = useSelector((state)=>state.user);
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
