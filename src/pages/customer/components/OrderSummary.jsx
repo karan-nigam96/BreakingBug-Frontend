@@ -27,7 +27,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
 
     let cartDetails = currentUser.cartDetails;
     let shippingData = currentUser.shippingData;
-
+    //* write reduce in place of drop
     const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
