@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
-const Products = ({productData}) => {
+const Products = ({productData}) => {          //add productData as props
   const navigate=useNavigate();
   const dispatch = useDispatch();
 
   const itemsPerPage = 9;
-  const [productdata,setproductdata]=useState([]);
-  //* gave parameter to parenthesis inside useSelector below
+  const [productdata,setproductdata]=useState([]);       //add productdata 
+ 
   const { currentRole, responseSearch } = useSelector((state)=>state.user);
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
@@ -52,7 +52,7 @@ const Products = ({productData}) => {
   return (
     <>
       <ProductGrid container spacing={3}>
-        {productdata.map((data, index) => (
+        {productdata.map((data, index) => (                 //remove previous array and add productdata array
           <Grid item xs={12} sm={6} md={4}
             key={index}
             onClick={() => navigate("/product/view/" + data._id)}
